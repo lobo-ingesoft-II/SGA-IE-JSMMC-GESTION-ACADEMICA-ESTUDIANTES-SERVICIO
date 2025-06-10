@@ -11,10 +11,12 @@ Este servicio permite gestionar los datos de los estudiantes en el sistema acad√
 #### Request Body
 ```json
 {
-  "nombres": "Juan",
-  "apellidos": "P√©rez",
+  "id_usuario": 1,
+  "id_acudiente": 2,
   "fecha_nacimiento": "2010-05-15",
-  "grado": "Primero"
+  "id_curso": 3,
+  "estado_matricula": "matriculado",
+  "sede": "Principal"
 }
 ```
 
@@ -25,10 +27,12 @@ Este servicio permite gestionar los datos de los estudiantes en el sistema acad√
 ```json
 {
   "id_estudiante": 1,
-  "nombres": "Juan",
-  "apellidos": "P√©rez",
+  "id_usuario": 1,
+  "id_acudiente": 2,
   "fecha_nacimiento": "2010-05-15",
-  "grado": "Primero"
+  "id_curso": 3,
+  "estado_matricula": "matriculado",
+  "sede": "Principal"
 }
 ```
 
@@ -43,10 +47,12 @@ Este servicio permite gestionar los datos de los estudiantes en el sistema acad√
 ```json
 {
   "id_estudiante": 1,
-  "nombres": "Juan",
-  "apellidos": "P√©rez",
+  "id_usuario": 1,
+  "id_acudiente": 2,
   "fecha_nacimiento": "2010-05-15",
-  "grado": "Primero"
+  "id_curso": 3,
+  "estado_matricula": "matriculado",
+  "sede": "Principal"
 }
 ```
 
@@ -54,7 +60,7 @@ Este servicio permite gestionar los datos de los estudiantes en el sistema acad√
 
 ```json
 {
-  "detail": "Estudiante not found"
+  "detail": "Estudiante no encontrado"
 }
 ```
 
@@ -70,17 +76,21 @@ Este servicio permite gestionar los datos de los estudiantes en el sistema acad√
 [
   {
     "id_estudiante": 1,
-    "nombres": "Juan",
-    "apellidos": "P√©rez",
+    "id_usuario": 1,
+    "id_acudiente": 2,
     "fecha_nacimiento": "2010-05-15",
-    "grado": "Primero"
+    "id_curso": 3,
+    "estado_matricula": "matriculado",
+    "sede": "Principal"
   },
   {
     "id_estudiante": 2,
-    "nombres": "Mar√≠a",
-    "apellidos": "G√≥mez",
+    "id_usuario": 2,
+    "id_acudiente": 3,
     "fecha_nacimiento": "2009-08-20",
-    "grado": "Segundo"
+    "id_curso": 4,
+    "estado_matricula": "pre-matriculado",
+    "sede": "Secundaria"
   }
 ]
 ```
@@ -100,7 +110,7 @@ Este servicio permite gestionar los datos de los estudiantes en el sistema acad√
 3. Ejecuta el servidor:
 
    ```bash
-   uvicorn app.main:app --reload
+   uvicorn app.main:app --reload --port 8005
    ```
 
 ## Pruebas
@@ -116,6 +126,10 @@ pytest app/tests/test_estudiantes.py
 * **FastAPI**: Framework principal.
 * **SQLAlchemy**: ORM para manejar la base de datos.
 * **Pytest**: Framework para pruebas unitarias.
+
+## Documentaci√≥n interactiva
+
+Accede a la documentaci√≥n Swagger en [http://localhost:8005/docs](http://localhost:8005/docs) o ReDoc en [http://localhost:8005/redoc](http://localhost:8005/redoc).
 
 ## Contacto
 
