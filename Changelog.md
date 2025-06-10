@@ -17,3 +17,7 @@
 ## [1.0.2] - 2025-06-09
 ### Corregido
 - Se valido atributos con respecto a la DB y se realizan cambios generales.
+
+## [1.0.3] - 2025-06-010
+### Corregido
+- Se ajusta puerto en Readme.md.
