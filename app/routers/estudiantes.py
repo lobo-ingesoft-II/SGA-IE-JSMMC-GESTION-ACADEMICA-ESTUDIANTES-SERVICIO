@@ -21,7 +21,7 @@ def create(estudiante: EstudianteCreate, db: Session = Depends(get_db)):
 def get(id_estudiante: int, db: Session = Depends(get_db)):
     db_estudiante = get_estudiante(db, id_estudiante)
     if not db_estudiante:
-        raise HTTPException(status_code=404, detail="Estudiante not found")
+        raise HTTPException(status_code=404, detail="Estudiante no encontrado")
     return db_estudiante
 
 @router.get("/", response_model=list[EstudianteResponse])

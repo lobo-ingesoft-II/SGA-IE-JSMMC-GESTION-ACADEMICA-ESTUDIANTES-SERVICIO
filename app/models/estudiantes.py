@@ -1,11 +1,13 @@
-from sqlalchemy import Column, Integer, String, Date
+from sqlalchemy import Column, Integer, String, Date, Enum
 from app.db import Base
 
 class Estudiante(Base):
     __tablename__ = "estudiantes"
 
     id_estudiante = Column(Integer, primary_key=True, index=True)
-    nombres = Column(String(100), nullable=False)
-    apellidos = Column(String(100), nullable=False)
-    fecha_nacimiento = Column(Date, nullable=False)
-    grado = Column(String(20), nullable=False)
+    id_usuario = Column(Integer)
+    id_acudiente = Column(Integer)
+    fecha_nacimiento = Column(Date)
+    id_curso = Column(Integer)
+    estado_matricula = Column(Enum('pre-matriculado', 'matriculado', 'retirado'), default='pre-matriculado')
+    sede = Column(String(100))

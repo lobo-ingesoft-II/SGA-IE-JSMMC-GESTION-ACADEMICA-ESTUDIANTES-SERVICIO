@@ -13,3 +13,7 @@
 ### Corregido
 - Validación de formato de fecha en `fecha_nacimiento`.
 - Mejora en los mensajes de error para registros no encontrados.
+
+## [1.0.2] - 2025-06-09
+### Corregido
+- Se valido atributos con respecto a la DB y se realizan cambios generales.
