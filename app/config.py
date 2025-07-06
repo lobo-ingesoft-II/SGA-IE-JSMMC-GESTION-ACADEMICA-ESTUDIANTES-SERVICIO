@@ -1,9 +1,8 @@
-from pydantic import BaseSettings
-import pymysql
+from pydantic import BaseSettings  # Ya incluido en pydantic==1.10.7
 
-class Settings(BaseSettings): # type: ignore
-    DATABASE_URL: mysql+pymysql://usuario:contraseña@localhost:3306/estudiantes_db # type: ignore
-    SECRET_KEY: prueba123 # type: ignore
+class Settings(BaseSettings):
+    DATABASE_URL: str = "mysql+pymysql://root:12345@localhost:3306/estudiantes_db"
+    SECRET_KEY: str = "prueba123"
     DEBUG: bool = True
 
     class Config:
