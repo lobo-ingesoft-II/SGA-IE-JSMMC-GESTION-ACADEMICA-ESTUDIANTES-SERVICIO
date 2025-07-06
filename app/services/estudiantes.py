@@ -14,3 +14,6 @@ def get_estudiante(db: Session, id_estudiante: int):
 
 def list_estudiantes(db: Session):
     return db.query(Estudiante).all()
+
+def list_estudiantes_by_acudiente(db: Session, id_acudiente: int):
+    return db.query(Estudiante).filter(Estudiante.id_acudiente == id_acudiente).all()
