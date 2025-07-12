@@ -1,9 +1,37 @@
-fastapi==0.95.2
-uvicorn==0.22.0
-sqlalchemy==1.4.46
-pydantic==1.10.7
+# FastAPI y dependencias principales
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+
+# Pydantic v2 con soporte para email
+pydantic==2.5.0
+pydantic-settings==2.1.0
+email-validator==2.1.1
+
+# Base de datos
+SQLAlchemy==2.0.23
+PyMySQL==1.1.1
+
+# Autenticación y seguridad
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+python-multipart==0.0.6
+
+# HTTP requests
+requests==2.32.4
+
+# Utilidades
 python-dotenv==1.0.0
-pymysql==1.1.1
-cffi==1.17.1 
-cryptography==45.0.3 
-pycparser==2.22
+
+# Dependencias compatibles (sin versiones fijas para evitar conflictos)
+anyio>=3.7.1,<4.0.0
+typing-extensions>=4.5.0
+certifi
+charset-normalizer
+click
+h11
+idna
+sniffio
+starlette
+urllib3
+
+
