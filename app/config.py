@@ -30,6 +30,6 @@ class Settings(BaseSettings):
     SECRET_KEY: str = "prueba123"
     DEBUG: bool = True
 
-    model_config = {"env_file": ".env", "extra": "allow"}
+    model_config = {"env_file": ".env", "extra": "allow"} # type: ignore
 
 settings = Settings()
