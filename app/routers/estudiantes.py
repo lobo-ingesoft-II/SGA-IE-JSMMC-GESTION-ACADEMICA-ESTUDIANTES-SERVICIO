@@ -14,6 +14,8 @@ from app.services.estudiantes import (
 from app.db import SessionLocal
 from app.config import settings
 
+from prometheus_client import Counter # type: ignore
+
 router = APIRouter()
 
 # URLs de las APIs externas (desde configuración)

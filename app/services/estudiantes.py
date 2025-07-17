@@ -2,6 +2,7 @@ from sqlalchemy.orm import Session
 from app.models.estudiantes import Estudiante
 from app.schemas.estudiantes import EstudianteCreate
 from app.config import settings
+import requests
 
 def create_estudiante(db: Session, estudiante: EstudianteCreate):
     db_estudiante = Estudiante(**estudiante.dict())
@@ -31,7 +32,6 @@ def list_estudiantes_by_asignatura(db: Session, id_asignatura: int):
     Obtiene todos los estudiantes asociados a una asignatura específica.
     La relación es: Asignatura -> Curso (via asignacion_asignaturas) -> Estudiantes
     """
-    import requests
     
     # Obtener los cursos asociados a la asignatura desde la API de asignaturas
     try:
