@@ -23,5 +23,4 @@ class EstudianteResponse(EstudianteBase):
     fecha_creacion: datetime
     fecha_modificacion: datetime
 
-    class Config:
-        orm_mode = True
+    model_config = {"from_attributes": True}
