@@ -17,8 +17,8 @@ class Settings(BaseSettings):
     servidor_api_autenticacion_url: str = Field(default="http://localhost:8009", alias="SERVIDOR_API_AUTENTICACION_URL")
     
     # URLs de servicios externos
-    api_cursos_url: str = Field(default="http://127.0.0.1:8007", alias="API_CURSOS_URL")
-    api_sedes_url: str = Field(default="http://127.0.0.1:8000", alias="API_SEDES_URL")
+    api_cursos_url: str = Field(default="http://127.0.0.1:8004", alias="API_CURSOS_URL")
+    api_sedes_url: str = Field(default="http://127.0.0.1:8007", alias="API_SEDES_URL")
     api_asignaturas_url: str = Field(default="http://127.0.0.1:8001", alias="API_ASIGNATURAS_URL")
     
     # Configuración CORS
