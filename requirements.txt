@@ -34,4 +34,9 @@ sniffio
 starlette
 urllib3
 
-
+pydantic-settings==2.1.0
+pydantic[email]
+prometheus_client
+pytest
+pytest-mock
+requests

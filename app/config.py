@@ -10,16 +10,16 @@ class Settings(BaseSettings):
     port_mysql: str = Field(default="3306", alias="PORT_MYSQL")
     
     # URL de la base de datos
-    DATABASE_URL: str = "mysql+pymysql://root:1234@localhost:3306/estudiantes_db"
+    DATABASE_URL: str = Field(default="mysql+pymysql://root:1234@host.docker.internal:3306/estudiantes_db", alias="DATABASE_URL")
 
     
     # URL del servicio de autenticación
     servidor_api_autenticacion_url: str = Field(default="http://localhost:8009", alias="SERVIDOR_API_AUTENTICACION_URL")
     
     # URLs de servicios externos
-    api_cursos_url: str = Field(default="http://127.0.0.1:8004", alias="API_CURSOS_URL")
-    api_sedes_url: str = Field(default="http://127.0.0.1:8000", alias="API_SEDES_URL")
-    api_asignaturas_url: str = Field(default="http://127.0.0.1:8001", alias="API_ASIGNATURAS_URL")
+    api_cursos_url: str = Field(default="http://sga-cursos-service:8004", alias="API_CURSOS_URL")
+    api_sedes_url: str = Field(default="http://sga-sedes-service:8000", alias="API_SEDES_URL")
+    api_asignaturas_url: str = Field(default="http://sga-asignaturas-service:8001", alias="API_ASIGNATURAS_URL")
     
     # Configuración CORS
     cors_origins: list[str] = Field(default=["*"], alias="CORS_ORIGINS")
