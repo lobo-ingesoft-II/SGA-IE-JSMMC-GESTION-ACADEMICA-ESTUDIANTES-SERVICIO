@@ -7,16 +7,21 @@ from app.services.estudiantes import (
     create_estudiante,
     get_estudiante,
     list_estudiantes,
-    list_estudiantes_by_acudiente, # type: ignore
+    list_estudiantes_by_acudiente,
+    list_estudiantes_by_curso,
+    list_estudiantes_by_asignatura,
 )
 from app.db import SessionLocal
+from app.config import settings
+
+from prometheus_client import Counter # type: ignore
 
 router = APIRouter()
 
-# URLs de las APIs externas (ajusta según tu entorno)
-API_AUTH_URL = "http://127.0.0.1:8001/usuarios"
-API_CURSOS_URL = "http://127.0.0.1:8002/cursos"
-API_SEDES_URL = "http://127.0.0.1:8003/sedes"
+# URLs de las APIs externas (desde configuración)
+API_AUTH_URL = f"{settings.servidor_api_autenticacion_url}/acudiente"
+API_CURSOS_URL = f"{settings.api_cursos_url}/cursos"
+API_SEDES_URL = f"{settings.api_sedes_url}/sedes"
 
 def get_db():
     db = SessionLocal()
@@ -25,43 +30,75 @@ def get_db():
     finally:
         db.close()
 
-# --- Crear estudiante con validaciones externas ---
 @router.post("/", response_model=EstudianteResponse)
 def create(estudiante: EstudianteCreate, db: Session = Depends(get_db)):
-    # Validar id_acudiente en API de Autenticación (si viene)
+    # Validar acudiente
     if estudiante.id_acudiente is not None:
-        resp = requests.get(f"{API_AUTH_URL}/{estudiante.id_acudiente}")
-        if resp.status_code != 200:
-            raise HTTPException(status_code=400, detail="id_acudiente no existe en autenticación")
+        response = requests.get(f"{API_AUTH_URL}/{estudiante.id_acudiente}")
+        if response.status_code != 200:
+            raise HTTPException(status_code=400, detail="Acudiente no válido")
 
-    # Validar id_curso en API de Cursos (si viene)
+    # Validar curso
     if estudiante.id_curso is not None:
-        resp = requests.get(f"{API_CURSOS_URL}/{estudiante.id_curso}")
-        if resp.status_code != 200:
-            raise HTTPException(status_code=400, detail="id_curso no existe en cursos")
+        response = requests.get(f"{API_CURSOS_URL}/{estudiante.id_curso}")
+        if response.status_code != 200:
+            raise HTTPException(status_code=400, detail="Curso no válido")
 
-    # Validar id_sede en API de Sedes
-    resp = requests.get(f"{API_SEDES_URL}/{estudiante.id_sede}")
-    if resp.status_code != 200:
-        raise HTTPException(status_code=400, detail="id_sede no existe en sedes")
+    # Validar sede
+    response = requests.get(f"{API_SEDES_URL}/{estudiante.id_sede}")
+    if response.status_code != 200:
+        raise HTTPException(status_code=400, detail="Sede no válida")
 
     return create_estudiante(db, estudiante)
 
-# --- Obtener estudiante por id_estudiante ---
 @router.get("/{id_estudiante}", response_model=EstudianteResponse)
 def get(id_estudiante: int, db: Session = Depends(get_db)):
-    db_estudiante = get_estudiante(db, id_estudiante)
-    if not db_estudiante:
+    estudiante = get_estudiante(db, id_estudiante)
+    if not estudiante:
         raise HTTPException(status_code=404, detail="Estudiante no encontrado")
-    return db_estudiante
+    return estudiante
 
-# --- Listar todos los estudiantes ---
 @router.get("/", response_model=list[EstudianteResponse])
 def list_all(db: Session = Depends(get_db)):
     return list_estudiantes(db)
 
-# --- Listar estudiantes por id_acudiente ---
 @router.get("/por_acudiente/{id_acudiente}", response_model=list[EstudianteResponse])
 def list_by_acudiente(id_acudiente: int, db: Session = Depends(get_db)):
-    estudiantes = list_estudiantes_by_acudiente(db, id_acudiente)
+    return list_estudiantes_by_acudiente(db, id_acudiente)
+
+@router.get("/por_curso/{id_curso}", response_model=list[EstudianteResponse])
+def list_by_curso(id_curso: int, db: Session = Depends(get_db)):
+    """
+    Obtiene todos los estudiantes asociados a un curso específico.
+    
+    Args:
+        id_curso: ID del curso
+    
+    Returns:
+        Lista de estudiantes matriculados en ese curso
+    """
+    # Validar que el curso existe
+    response = requests.get(f"{API_CURSOS_URL}/{id_curso}")
+    if response.status_code != 200:
+        raise HTTPException(status_code=404, detail="Curso no encontrado")
+    
+    estudiantes = list_estudiantes_by_curso(db, id_curso)
+    if not estudiantes:
+        raise HTTPException(status_code=404, detail="No se encontraron estudiantes para este curso")
+    return estudiantes
+
+@router.get("/por_asignatura/{id_asignatura}", response_model=list[EstudianteResponse])
+def list_by_asignatura(id_asignatura: int, db: Session = Depends(get_db)):
+    """
+    Obtiene todos los estudiantes asociados a una asignatura específica.
+    
+    Args:
+        id_asignatura: ID de la asignatura
+    
+    Returns:
+        Lista de estudiantes matriculados en cursos que tienen asignada esa asignatura
+    """
+    estudiantes = list_estudiantes_by_asignatura(db, id_asignatura)
+    if not estudiantes:
+        raise HTTPException(status_code=404, detail="No se encontraron estudiantes para esta asignatura")
     return estudiantes
